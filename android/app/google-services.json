@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "124995487703",
+    "project_id": "rea-app-345821",
+    "storage_bucket": "rea-app-345821.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124995487703:android:b07d4a910bc25154aead92",
+        "android_client_info": {
+          "package_name": "com.example.rea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124995487703-oglobkb37p1fvr5hqahlq4vrft4jek9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHzLogjcsaSA-yGLnHkPDVFQy-LtsrI5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124995487703-oglobkb37p1fvr5hqahlq4vrft4jek9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
