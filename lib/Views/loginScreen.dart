@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rea/Views/homeScreen.dart';
 import 'package:rea/Views/registerScreen.dart';
 
@@ -92,55 +91,57 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: Form(
-            key: _fomKey,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const Text("Rea",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 45,
-                  ),
-                  emailField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  passwordField,
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  loginButton,
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text("No tienes una cuenta?"),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegistrationScreen()));
-                        },
-                        child: const Text("Registrate",
-                            style: TextStyle(
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
-                      )
-                    ],
-                  ),
-                ]),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
+              key: _fomKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Rea",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent)),
+                    const SizedBox(
+                      height: 45,
+                    ),
+                    emailField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    passwordField,
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    loginButton,
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text("No tienes una cuenta?"),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RegistrationScreen()));
+                          },
+                          child: const Text("Registrate",
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                        )
+                      ],
+                    ),
+                  ]),
+            ),
           ),
         ),
       ),
@@ -152,11 +153,15 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successful"),
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text('Ingreso exitoso!'))),
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const HomeScreen()))
               })
-          .catchError((e) => {Fluttertoast.showToast(msg: e!.message)});
+          .catchError((e) => {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error a la hora de ingresar!')))
+              });
     }
   }
 }

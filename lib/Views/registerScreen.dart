@@ -121,44 +121,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: Form(
-            key: _fomKey,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const Text("Rea",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 45,
-                  ),
-                  firstNameField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  secondNameField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  emailEditingField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  passwordEditingField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  confirmPasswordEditingField,
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  signUpButton,
-                ]),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
+              key: _fomKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Rea",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent)),
+                    const SizedBox(
+                      height: 45,
+                    ),
+                    firstNameField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    secondNameField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    emailEditingField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    passwordEditingField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    confirmPasswordEditingField,
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    signUpButton,
+                  ]),
+            ),
           ),
         ),
       ),
