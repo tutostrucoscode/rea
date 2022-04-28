@@ -1,41 +1,28 @@
-import '../entities/user_entity.dart';
+class UserModel {
+  String? uid;
+  String? email;
+  String? firstName;
+  String? secondName;
 
-class UserModel extends UserEntity {
-  UserModel({
-    required String name,
-    required String email,
-    required String phoneNumber,
-    bool? isOnline,
-    required String uid,
-    String? profileUrl,
-  }) : super(
-          name: name,
-          email: email,
-          phoneNumber: phoneNumber,
-          isOnline: isOnline,
-          uid: uid,
-          profileUrl: profileUrl,
-        );
+  UserModel({this.uid, this.email, this.firstName, this.secondName});
 
-  factory UserModel.fromSnapshot(snapshot) {
+  // receiving data from server
+  factory UserModel.fromMap(map) {
     return UserModel(
-      name: snapshot.data()['name'],
-      email: snapshot.data()['email'],
-      phoneNumber: snapshot.data()['phoneNumber'],
-      uid: snapshot.data()['uid'],
-      isOnline: snapshot.data()['isOnline'],
-      profileUrl: snapshot.data()['profileUrl'],
+      uid: map['uid'],
+      email: map['email'],
+      firstName: map['firstName'],
+      secondName: map['secondName'],
     );
   }
 
-  Map<String, dynamic> toDocument() {
+  // sending data to our server
+  Map<String, dynamic> toMap() {
     return {
-      "name": name,
-      "email": email,
-      "phoneNumber": phoneNumber,
-      "uid": uid,
-      "isOnline": isOnline,
-      "profileUrl": profileUrl
+      'uid': uid,
+      'email': email,
+      'firstName': firstName,
+      'secondName': secondName,
     };
   }
 }

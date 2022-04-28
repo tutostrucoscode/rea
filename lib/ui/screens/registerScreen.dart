@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rea/domain/models/user_model.dart';
+import 'package:rea/ui/screens/homeScreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -8,6 +12,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
   final _fomKey = GlobalKey<FormState>();
 
   final firstNameController = TextEditingController();
@@ -50,6 +55,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: emailEditingController,
       keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Por favor, introduzca un texto';
+        }
+        if (!RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+')
+            .hasMatch(value)) {
+          return 'Por favor introduzca una dirección de correo electrónico válida';
+        }
+        return null;
+      },
       onSaved: (value) {
         emailEditingController.text = value!;
       },
@@ -63,7 +78,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final passwordEditingField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
+      keyboardType: TextInputType.name,
       obscureText: true,
+      validator: (value) {
+        RegExp regExp = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+        if (value!.isEmpty) {
+          return 'Se requiere contraseña para registrarse';
+        }
+        /*if (!regExp.hasMatch(value)) {
+          return 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula y un número';
+        }*/
+      },
       onSaved: (value) {
         passwordEditingController.text = value!;
       },
@@ -76,8 +101,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
     final confirmPasswordEditingField = TextFormField(
       autofocus: false,
-      controller: firstNameController,
+      controller: confirmPasswordEditingController,
       obscureText: true,
+      validator: (value) {
+        if (confirmPasswordEditingController.text.length > 6 &&
+            confirmPasswordEditingController.text !=
+                passwordEditingController.text) {
+          return 'Las contraseñas no coinciden';
+        }
+        return null;
+      },
       onSaved: (value) {
         confirmPasswordEditingController.text = value!;
       },
@@ -85,7 +118,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "First Name",
+          hintText: "Confirm Password",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
     final signUpButton = Material(
@@ -95,7 +128,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {},
+        onPressed: () {
+          signUp(emailEditingController.text, passwordEditingController.text);
+        },
         child: const Text("SingUp",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -164,5 +199,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+  }
+
+  void signUp(String email, String password) async {
+    if (_fomKey.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => postDetailsToFirestore())
+          .catchError((error) => print(error));
+    }
+  }
+
+  void postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel(
+        firstName: firstNameController.text,
+        secondName: secondNameController.text,
+        email: user!.email,
+        uid: user.uid);
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (route) => false);
   }
 }

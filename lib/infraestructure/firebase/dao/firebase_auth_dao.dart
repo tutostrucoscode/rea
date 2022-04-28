@@ -19,14 +19,7 @@ class FirebaseAuthDao implements FirebaseAuthRemoteDataSource {
     final userCollection = fireStore.collection("users");
     final uid = await getCurrentUID();
     userCollection.doc(uid).get().then((userDoc) {
-      final newUser = UserModel(
-        profileUrl: user.profileUrl,
-        isOnline: user.isOnline,
-        uid: uid,
-        phoneNumber: user.phoneNumber,
-        email: user.email,
-        name: user.name,
-      ).toDocument();
+      final newUser = UserModel(email: user.email, uid: user.uid).toMap();
       if (!userDoc.exists) {
         //Se crea un nuevo usuario
         userCollection.doc(uid).set(newUser);
