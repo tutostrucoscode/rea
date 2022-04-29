@@ -36,3 +36,19 @@ class LogginOff extends AuthState {
   @override
   List<Object> get props => [];
 }
+
+//Register
+class RegisterOk extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+class RegisterLoad extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+class RegisterOff extends AuthState {
+  @override
+  List<Object> get props => [];
+}

@@ -5,6 +5,7 @@ import 'package:rea/domain/repository/firebase_repository.dart';
 import 'package:rea/domain/use_cases/auth_use_cases/get_create_current_user_usecase.dart';
 import 'package:rea/domain/use_cases/auth_use_cases/get_current_uid_usecase.dart';
 import 'package:rea/domain/use_cases/auth_use_cases/is_sign_in_usecase.dart';
+import 'package:rea/domain/use_cases/auth_use_cases/register_new_user_usecase.dart';
 import 'package:rea/domain/use_cases/auth_use_cases/sign_out_usecase.dart';
 import 'package:rea/domain/use_cases/auth_use_cases/sing_in_with_email.dart';
 import 'package:rea/infraestructure/firebase/dao/firebase_auth_dao.dart';
@@ -21,6 +22,7 @@ Future<void> init() async {
         isSignInUseCase: sl.call(),
         getCurrentUidUseCase: sl.call(),
         singInWithEmail: sl.call(),
+        registerNewUser: sl.call(),
       ));
 
   //user-cases
@@ -34,6 +36,8 @@ Future<void> init() async {
       () => IsSignInUseCase(repository: sl.call()));
   sl.registerLazySingleton<SignOutUseCase>(
       () => SignOutUseCase(repository: sl.call()));
+  sl.registerLazySingleton<RegisterNewUser>(
+      () => RegisterNewUser(repository: sl.call()));
 
   //repository
   sl.registerLazySingleton<FirebaseRepository>(() => FirebaseRepositoryImpl(

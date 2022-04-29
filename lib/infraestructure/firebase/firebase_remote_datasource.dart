@@ -7,4 +7,5 @@ abstract class FirebaseAuthRemoteDataSource {
   Future<void> signOut();
   Future<String> getCurrentUID();
   Future<void> getCreateCurrentUser(UserEntity user);
+  Future<void> registerNewUser(user);
 }

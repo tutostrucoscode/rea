@@ -54,4 +54,18 @@ class FirebaseAuthDao implements FirebaseAuthRemoteDataSource {
 
   @override
   Future<void> signOut() async => await auth.signOut();
+
+  @override
+  Future<void> registerNewUser(user) async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: user.email,
+        password: user.password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        print('Email is already in use with that user.');
+      }
+    }
+  }
 }

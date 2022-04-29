@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rea/domain/entities/user_entity.dart';
 import 'package:rea/domain/models/user_model.dart';
+import 'package:rea/ui/cubit/auth_cubit.dart';
 import 'package:rea/ui/screens/homeScreen.dart';
+import 'package:rea/ui/widgets/loading.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -12,7 +16,6 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final _auth = FirebaseAuth.instance;
   final _fomKey = GlobalKey<FormState>();
 
   final firstNameController = TextEditingController();
@@ -129,7 +132,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
-          signUp(emailEditingController.text, passwordEditingController.text);
+          signUp();
         },
         child: const Text("SingUp",
             textAlign: TextAlign.center,
@@ -154,80 +157,81 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           },
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Form(
-              key: _fomKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Rea",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.redAccent)),
-                    const SizedBox(
-                      height: 45,
-                    ),
-                    firstNameField,
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    secondNameField,
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    emailEditingField,
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    passwordEditingField,
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    confirmPasswordEditingField,
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    signUpButton,
-                  ]),
+      body: BlocConsumer<AuthCubit, AuthState>(listener: ((context, state) {
+        if (state is RegisterOk) {
+          HomeScreen();
+        }
+        if (state is RegisterOff) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Registro fallido'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      }), builder: (context, state) {
+        if (state is RegisterLoad) {
+          return LoadingWidget(context: context);
+        }
+
+        return Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _fomKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Rea",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent)),
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      firstNameField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      secondNameField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      emailEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      passwordEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      confirmPasswordEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      signUpButton,
+                    ]),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
-  void signUp(String email, String password) async {
+  void signUp() async {
     if (_fomKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => postDetailsToFirestore())
-          .catchError((error) => print(error));
+      //firstNameController
+      //secondNameController
+      final name = firstNameController.text + secondNameController.text;
+      UserEntity user = UserEntity(
+          name: name,
+          email: emailEditingController.text,
+          password: passwordEditingController.text);
+      await BlocProvider.of<AuthCubit>(context).registerNewUser(user);
     }
-  }
-
-  void postDetailsToFirestore() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-    UserModel userModel = UserModel(
-        firstName: firstNameController.text,
-        secondName: secondNameController.text,
-        email: user!.email,
-        uid: user.uid);
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-        (route) => false);
   }
 }
