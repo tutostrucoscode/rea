@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rea/ui/screens/forms/page1.dart';
+import 'package:rea/ui/screens/forms/page2.dart';
+import 'package:rea/ui/screens/forms/page3.dart';
+import 'package:rea/ui/widgets/progress.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,47 +14,59 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Welcome"),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 150,
-                child: Text("Rea"),
-              ),
-              const Text(
-                "Bienvenido",
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Nombre de usuario",
-                style: TextStyle(
-                    color: Colors.black54, fontWeight: FontWeight.w500),
-              ),
-              const Text(
-                "Email",
-                style: TextStyle(
-                    color: Colors.black54, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ActionChip(label: const Text("Desconectarse"), onPressed: () {}),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            width: width,
+            height: height,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.redAccent, Colors.white],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter)),
           ),
-        ),
+          DraggableScrollableSheet(
+              maxChildSize: .9,
+              minChildSize: .5,
+              initialChildSize: .6,
+              builder: (ctx, controller) {
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)),
+                      color: Colors.white),
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PForm(pages: const [
+                          Page1(),
+                          Page2(),
+                          Page3()
+                        ], title: [
+                          PTitle(
+                            title: 'Información de la univeridad',
+                          ),
+                          PTitle(
+                            title: 'Información de la carrera',
+                          ),
+                          PTitle(
+                            title: 'Confirmación',
+                          )
+                        ])
+                      ],
+                    ),
+                  ),
+                );
+              })
+        ],
       ),
     );
   }
