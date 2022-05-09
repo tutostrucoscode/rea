@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class TProgress extends StatelessWidget {
   String hintText;
   Widget prefix;
+  TextEditingController controller;
 
-  TProgress({Key? key, required this.hintText, required this.prefix})
+  TProgress(
+      {Key? key,
+      required this.hintText,
+      required this.prefix,
+      required this.controller})
       : super(key: key);
 
   @override
@@ -15,10 +20,11 @@ class TProgress extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
             prefixIcon: prefix,
             hintText: hintText,
-            border: OutlineInputBorder(borderSide: BorderSide.none)),
+            border: const OutlineInputBorder(borderSide: BorderSide.none)),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rea/domain/models/form_model.dart';
 import 'package:rea/ui/screens/forms/page1.dart';
 import 'package:rea/ui/screens/forms/page2.dart';
 import 'package:rea/ui/screens/forms/page3.dart';
@@ -14,6 +15,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    //FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final newFormField = FormFieldModel("", "", "", "", "", "", "", "", "");
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -46,10 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        PForm(pages: const [
-                          Page1(),
-                          Page2(),
-                          Page3()
+                        PForm(pages: [
+                          Page1(
+                            formField: newFormField,
+                          ),
+                          Page2(
+                            formField: newFormField,
+                          ),
+                          Page3(
+                            formField: newFormField,
+                          )
                         ], title: [
                           PTitle(
                             title: 'Información de la univeridad',
@@ -60,7 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           PTitle(
                             title: 'Confirmación',
                           )
-                        ])
+                        ]),
+                        TextButton(
+                            onPressed: () async {}, child: const Text("Enviar"))
                       ],
                     ),
                   ),

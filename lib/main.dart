@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await di.init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -34,12 +34,12 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return HomeScreen();
+                  return const HomeScreen();
                 }
                 if (authState is UnAuthenticated) {
-                  return LoginScreen();
+                  return const LoginScreen();
                 }
-                return LoginScreen();
+                return const LoginScreen();
               },
             );
           }
