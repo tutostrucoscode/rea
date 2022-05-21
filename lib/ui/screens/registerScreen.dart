@@ -119,6 +119,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           },
         ),
       ),
+<<<<<<< Updated upstream
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -159,6 +160,66 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     signUpButton,
                   ]),
+=======
+      body: BlocConsumer<AuthCubit, AuthState>(listener: ((context, state) {
+        if (state is RegisterOk) {
+          Cuestion2Screen();
+        }
+        if (state is RegisterOff) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Registro fallido'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      }), builder: (context, state) {
+        if (state is RegisterLoad) {
+          return LoadingWidget(context: context);
+        }
+
+        return Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _fomKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Rea",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent)),
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      firstNameField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      secondNameField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      emailEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      passwordEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      confirmPasswordEditingField,
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      signUpButton,
+                    ]),
+              ),
+>>>>>>> Stashed changes
             ),
           ),
         ),

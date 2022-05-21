@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
             return LoadingWidget(context: context);
           }
           if (state is LogginOk) {
-            return HomeScreen();
+            return Cuestion2Screen();
           }
           return Center(
             child: SingleChildScrollView(
