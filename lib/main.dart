@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rea/ui/cubit/auth_cubit.dart';
 import 'package:rea/ui/screens/homeScreen.dart';
 import 'package:rea/ui/screens/listScreen.dart';
+import 'package:rea/ui/screens/vistas/tabs_page.dart';
 import 'package:rea/ui/utils/theme/style.dart';
 import 'ui/screens/loginScreen.dart';
 import 'package:rea/config/injection_container.dart' as di;
@@ -35,11 +36,7 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-<<<<<<< Updated upstream
-                  return HomeScreen();
-=======
                   return const Cuestion2Screen();
->>>>>>> Stashed changes
                 }
                 if (authState is UnAuthenticated) {
                   return LoginScreen();
@@ -52,6 +49,13 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 return ListScreen();
+              },
+            );
+          },
+          "/info": (context) {
+            return BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, authState) {
+                return TabsPage();
               },
             );
           }

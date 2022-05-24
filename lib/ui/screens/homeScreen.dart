@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
-import 'package:rea/domain/models/form_model.dart';
 import 'package:rea/ui/widgets/textField.dart';
->>>>>>> Stashed changes
 
 class Cuestion2Screen extends StatefulWidget {
   const Cuestion2Screen({Key? key}) : super(key: key);
@@ -13,11 +9,6 @@ class Cuestion2Screen extends StatefulWidget {
   State<Cuestion2Screen> createState() => _Cuestion2ScreenState();
 }
 
-<<<<<<< Updated upstream
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-=======
 class _Cuestion2ScreenState extends State<Cuestion2Screen> {
   final _fomKey = GlobalKey<FormState>();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -33,51 +24,13 @@ class _Cuestion2ScreenState extends State<Cuestion2Screen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
->>>>>>> Stashed changes
     return Scaffold(
       appBar: AppBar(
         title: const Text("Welcome"),
         centerTitle: true,
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 150,
-                child: Text("Rea"),
-              ),
-              const Text(
-                "Bienvenido",
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Nombre de usuario",
-                style: TextStyle(
-                    color: Colors.black54, fontWeight: FontWeight.w500),
-              ),
-              const Text(
-                "Email",
-                style: TextStyle(
-                    color: Colors.black54, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ActionChip(label: const Text("Desconectarse"), onPressed: () {}),
-            ],
-          ),
-<<<<<<< Updated upstream
-        ),
-=======
-          DraggableScrollableSheet(
+        child: DraggableScrollableSheet(
             maxChildSize: .9,
             minChildSize: .5,
             initialChildSize: .6,
@@ -182,10 +135,7 @@ class _Cuestion2ScreenState extends State<Cuestion2Screen> {
                           ]),
                     ),
                   ));
-            },
-          ),
-        ],
->>>>>>> Stashed changes
+            }),
       ),
     );
   }

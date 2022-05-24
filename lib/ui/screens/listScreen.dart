@@ -28,13 +28,18 @@ class ListScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            'assets/imgs/' +
-                                (doc.data() as dynamic)['imgName'] +
-                                '.png',
-                            fit: BoxFit.cover,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/info');
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              'assets/imgs/' +
+                                  (doc.data() as dynamic)['imgName'] +
+                                  '.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -78,7 +83,7 @@ class ListScreen extends StatelessWidget {
                                     color: Colors.white, fontSize: 25),
                               )
                             ]),
-                          ))
+                          )),
                     ],
                   ),
                 );
